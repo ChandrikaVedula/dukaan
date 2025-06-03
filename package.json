@@ -2,10 +2,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
-<<<<<<< HEAD
     "dotenv": "^16.5.0",
-=======
->>>>>>> 38ca7b500b922434c2a4bcdfd5962604210c6d19
     "express": "^5.1.0",
     "mongoose": "^8.15.1"
   }
