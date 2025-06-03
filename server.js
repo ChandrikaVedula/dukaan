@@ -6,21 +6,18 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middlewares
+// Middleware
 app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || "mongodb+srv://chandrikavedula:waydukaan@cluster0.jekbbmp.mongodb.net/waydukaan", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI || "mongodb+srv://chandrikavedula:waydukaan@cluster0.jekbbmp.mongodb.net/waydukaan")
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // Product Schema and Model
 const productSchema = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   category: String,
   subCategory: String,
   brand: String,
@@ -31,7 +28,7 @@ const productSchema = new mongoose.Schema({
   stockQty: Number,
   imageUrl: String,
   description: String
-});
+}, { timestamps: true });
 
 const Product = mongoose.model("Product", productSchema);
 
@@ -39,7 +36,7 @@ const Product = mongoose.model("Product", productSchema);
 app.get("/api/products", async (req, res) => {
   try {
     const products = await Product.find({});
-    res.json(products);
+    res.status(200).json(products);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch products" });
   }
@@ -50,7 +47,7 @@ app.get("/", (req, res) => {
   res.send("🌐 Waydukaan backend is running!");
 });
 
-// Start server
+// Start the server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
